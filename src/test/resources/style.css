@@ -23,6 +23,8 @@ body {
     margin-bottom: 3.3cm;
 
     size: A4 portrait;
+    background-image: url('pigeon_b.png');
+    background-repeat:no-repeat
 }
 
 div.header {
@@ -81,6 +83,8 @@ p {
 
 .right {
     text-align: right;
+}.center {
+    text-align: center;
 }
 
 .left {
@@ -98,6 +102,18 @@ p {
 table {
     width: 100%;
 }
+table.fixed { table-layout:fixed; }
+table.fixed td { overflow: hidden; }
+
+.tr_line{
+ height: 2.45cm;
+}
+.tr_line_footer{
+ height: .5cm;
+}
+.td_cell{
+ width: 4cm;
+}
 
 hr {
     background-color: #000000;
@@ -111,4 +127,10 @@ hr {
 
 .next-page {
     page-break-before: always
+}
+
+@page {
+  @bottom-right {
+    content: "Page " counter(page) " of " counter(pages);
+  }
 }

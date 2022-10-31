@@ -1,3 +1,5 @@
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.junit.Test;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -8,8 +10,10 @@ import org.xhtmlrenderer.pdf.ITextRenderer;
 import java.io.*;
 import java.nio.file.FileSystems;
 
-import static com.itextpdf.text.pdf.BaseFont.EMBEDDED;
-import static com.itextpdf.text.pdf.BaseFont.IDENTITY_H;
+//import static com.itextpdf.text.pdf.BaseFont.EMBEDDED;
+//import static com.itextpdf.text.pdf.BaseFont.IDENTITY_H;
+import static com.lowagie.text.pdf.BaseFont.EMBEDDED;
+import static com.lowagie.text.pdf.BaseFont.IDENTITY_H;
 import static org.thymeleaf.templatemode.TemplateMode.HTML;
 
 /**
@@ -59,7 +63,8 @@ public class FlyingSaucerTest {
         // XHTML. Note that this might not work for very complicated HTML. But
         // it's good enough for a simple letter.
         String renderedHtmlContent = templateEngine.process("template", context);
-        String xHtml = convertToXhtml(renderedHtmlContent);
+//        String xHtml = convertToXhtml(renderedHtmlContent);
+        String xHtml = convertToXhtmlJsop(renderedHtmlContent);
 
         ITextRenderer renderer = new ITextRenderer();
         renderer.getFontResolver().addFont("Code39.ttf", IDENTITY_H, EMBEDDED);
@@ -150,6 +155,12 @@ public class FlyingSaucerTest {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         tidy.parseDOM(inputStream, outputStream);
         return outputStream.toString(UTF_8);
+    }
+    private String convertToXhtmlJsop(String html)
+    {
+        final Document document = Jsoup.parse(html);
+        document.outputSettings().syntax(Document.OutputSettings.Syntax.xml);
+        return document.html();
     }
 
 }
